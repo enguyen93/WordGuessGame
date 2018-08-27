@@ -1,0 +1,7 @@
+#secondRow{
+    margin-top: 10%;
+}
+#placeHolders, #guessed-letters{
+    letter-spacing: 6px;
+    font-size: 30px;
+}
