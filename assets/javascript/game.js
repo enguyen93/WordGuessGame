@@ -87,6 +87,12 @@ function letterguess(letter) {
 
 //function to check for correct letters and add them to the correct guesses box
 
+// function correct(letter) {
+//     if(placeHolderArray.indexOf(letter.toLowerCase()) = true){
+//         guessesLeft;
+//         $guessesLeft.textContent ="guesses left: " + guessesLeft;
+//     }
+// }
 
 //function to check for Incorrect letters and add them to the wrong guesses box
 
@@ -100,7 +106,7 @@ function inCorrect(letter) {
             //puts a ', ' in between each incorrect guessed letter
             $guessedLetters.textContent = incorrectGuessedLetters.join(' ');
             //gets the element guessesLeft from html and updates it with the guessesLeft from js
-            $guessesLeft.textContent = guessesLeft;
+            $guessesLeft.textContent ="guesses left: " + guessesLeft;
         }
     }
 
@@ -138,7 +144,7 @@ function newGame() {
         }
     }
     //Write all new game info to DOM
-    $guessesLeft.textContent = guessesLeft;
+    $guessesLeft.textContent = "guesses left: " + guessesLeft;
     $placeHolders.textContent = placeHolderArray.join('');
     $guessedLetters.textContent = incorrectGuessedLetters;
 }
