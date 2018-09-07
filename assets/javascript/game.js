@@ -8,7 +8,7 @@ var $losses = document.getElementById("losses");
 var $updateMe = document.getElementById("updateMe");
 
 
-// an array of words
+// Create an array of words
 var words = [
     "javascript",
     "monkey",
@@ -30,13 +30,15 @@ var gameRunning = false;
 var guessedLetters = [];
 var incorrectGuessedLetters = [];
 var word = '';
+
+// Set up the answer array
 var placeHolderArray = [];
 
 //adding onkeyup event to trigger letterguess
 
 function letterguess(letter) {
     console.log(letter);
-    //is gameRunning is true AND the letter guessed DOES NOT exist in the guessedLetters array yet, then
+    //if gameRunning is true AND the letter guessed DOES NOT exist in the guessedLetters array yet, then
     //push will add it to the end of the guessedLetters array
     if (gameRunning === true && guessedLetters.indexOf(letter) === -1) {
         guessedLetters.push(letter);
@@ -67,21 +69,42 @@ function letterguess(letter) {
 
 }
 
+//function to check for correct letters and add them to the correct guesses box
+
+function correct(letter) {
+    if(placeHolderArray.indexOf(letter.toLowerCase()) === true){
+        guessesLeft;
+        $guessesLeft.textContent ="Guesses left: " + guessesLeft;
+    }
+}
+
 //function to check for Incorrect letters and add them to the wrong guesses box
 
 function inCorrect(letter) {
 
-    if (placeHolderArray.indexOf(letter.toLowerCase()) === -1) {
-        //decrement the number of guesses by 1
-        guessesLeft--;
-        //takes the guessed letter that is wrong and adds it to the wrong letters array
-        incorrectGuessedLetters.push(letter);
-        //puts a ', ' in between each incorrect guessed letter
-        $guessedLetters.textContent = incorrectGuessedLetters.join(' ');
-        //gets the element guessesLeft from html and updates it with the guessesLeft from js
-        $guessesLeft.textContent = "guesses left: " + guessesLeft;
+        if (placeHolderArray.indexOf(letter.toLowerCase()) === -1) {
+            //decrement the number of guesses by 1
+            guessesLeft--;
+            //takes the guessed letter that is wrong and adds it to the wrong letters array
+            incorrectGuessedLetters.push(letter);
+            //puts a ', ' in between each incorrect guessed letter
+            $guessedLetters.textContent = incorrectGuessedLetters.join(' ');
+            //gets the element guessesLeft from html and updates it with the guessesLeft from js
+            $guessesLeft.textContent ="Guesses left: " + guessesLeft;
+        }
+        numberOfLosses();
     }
-    numberOfLosses();
+
+
+//function that keeps track of wins
+
+function numberOfWins() {
+    if (word === placeHolderArray.join('')) {
+        wins++;
+        $wins.textContent = "Wins: " + wins;
+        $updateMe.textContent = "congratulations, you won! hit new game to play again";
+        gameRunning = false;
+    }
 }
 
 //function that keeps track of losses
@@ -89,30 +112,15 @@ function inCorrect(letter) {
 function numberOfLosses() {
     if (guessesLeft === 0) {
         losses++;
-        gameRunning = false;
-        $losses.textContent = "losses: " + losses;
+        $losses.textContent = "Losses: " + losses;
+        $updateMe.textContent = "you lost, try again, hit new game to play again";
         $placeHolders.textContent = word;
-        $updateMe.textContent = "You Lost!!! Hit the 'New Game' button to try again!";
+        //maybe try adding the timeout function to get the word to show up before ending the game?
+        gameRunning = false;
     }
     numberOfWins();
-}
-//whenever you lose the game, the alert happens before the last letter gets pushed into the placeholder array, FIX
 
-//function that keeps track of wins
-
-function numberOfWins() {
-    //if the chosen word is the same as the letters in the placeholderarray (.join makes it a string instead of separate
-    //values with commas in between) and compares the two
-    if (word === placeHolderArray.join('')) {
-        wins++;
-        //shuts the game off so that the user can't keep guessing
-        gameRunning = false;
-        //takes the info from html wins and replaces it with the iterated wins from js
-        $wins.textContent = "wins: " + wins;
-        $updateMe.textContent = "You Won!!! Congratulations!!! Hit the 'New Game' button to try again!";
-    }
 }
-//whenever you win the game, the alert happens before the last letter gets pushed into the placeholder array, FIX
 
 //newGame Function that resets the necessary attributes 
 function newGame() {
@@ -121,7 +129,6 @@ function newGame() {
     guessedLetters = [];
     incorrectGuessedLetters = [];
     placeHolderArray = [];
-    $updateMe.textContent = "Good Luck, Have Fun!";
 
     // Pick a random word
     word = words[Math.floor(Math.random() * words.length)];
@@ -138,8 +145,10 @@ function newGame() {
         }
     }
     //Write all new game info to DOM
-    $guessesLeft.textContent = "guesses left: " + guessesLeft;
+    //referring to guessesLeft inside this function, which is 0
+    $guessesLeft.textContent = "Guesses left: " + guessesLeft;
     $placeHolders.textContent = placeHolderArray.join('');
+    //the guessed letters area is replaced with the incorrect guessed letters, which is empty because incorrectguessedletters up above is an empty array
     $guessedLetters.textContent = incorrectGuessedLetters;
 }
 
@@ -153,8 +162,5 @@ document.onkeyup = function (event) {
     //unassociated keys, took a lot of digging around to find this method
     if (event.keyCode >= 65 && event.keyCode <= 90) {
         letterguess(event.key);
-    }
-    else {
-        alert("Can you try and NOT break this game...");
     }
 }
