@@ -141,7 +141,7 @@ function newGame() {
         }
         //otherwise there will just be a underscore for every letter in the chosen word
         else {
-            placeHolderArray.push('_');
+            placeHolderArray.push('_ ');
         }
     }
     //Write all new game info to DOM
