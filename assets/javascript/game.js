@@ -96,7 +96,7 @@ function inCorrect(letter) {
     }
 
 
-//function that keeps track of wins
+//function that keeps track of winss
 
 function numberOfWins() {
     if (word === placeHolderArray.join('')) {
